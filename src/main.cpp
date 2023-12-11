@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <Wire.h>>
+#include <Wire.h>
 
 void setup() {
   Serial.begin(115200);
@@ -9,6 +9,9 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("Three /n");
+  Serial.println("Two /n");
   Serial.println("One /n");
+  delay(1000);
 }
 
