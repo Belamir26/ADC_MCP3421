@@ -6,11 +6,12 @@
 
 MCP342x MCP(0x68);
 long Voltaje;
+long realvoltaje;
 void setup() {
   Serial.begin(115200);
   while (!Serial) {}  // wait for Serial comms to become ready
   Serial.println("Start Proyect");
-
+  Wire.begin();
   MCP.begin(0);
   MCP.setConfiguration(CH1,RESOLUTION_16_BITS,ONE_SHOT_MODE,PGA_X1);
 
