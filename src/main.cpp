@@ -15,7 +15,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) {}  // wait for Serial comms to become ready
   Serial.println("Start Proyect");
-
+  Wire.begin();
 #ifdef TEST
   // scan i2c
   Serial.println("i2cdetect");
@@ -36,7 +36,7 @@ void loop() {
   {
     fValue   = coMCP3421.ReadValue();
     s32Value = coMCP3421.ReadRaw();
-    //Serial.printf("\nADC: 0x%08lX (%ld) -> %.3f\n", s32Value, s32Value, fValue);
+    Serial.printf("\nADC: 0x%08lX (%ld) -> %.3f\n", s32Value, s32Value, fValue);
     coMCP3421.Trigger();
   }
   else
