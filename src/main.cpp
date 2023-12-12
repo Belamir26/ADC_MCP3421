@@ -1,49 +1,28 @@
-#undef  TEST
-#define TEST
+
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <MCP3421.h>
+#include <MCP342x.h>
 
-#ifdef TEST
-#  include <i2cdetect.h>
-#endif
-
-CMCP3421 coMCP3421(0.1692);
-
+MCP342x MCP(0x68);
+long Voltaje;
 void setup() {
   Serial.begin(115200);
   while (!Serial) {}  // wait for Serial comms to become ready
   Serial.println("Start Proyect");
 
-#ifdef TEST
-  // scan i2c
-  Serial.println("i2cdetect");
-  i2cdetect();  // default range from 0x03 to 0x77
-  Serial.println();
-#endif
+  MCP.begin(0);
+  MCP.setConfiguration(CH1,RESOLUTION_16_BITS,ONE_SHOT_MODE,PGA_X1);
 
-  coMCP3421.Init();
-  Serial.println("Init");
-  coMCP3421.Trigger();
 }
 
 void loop() {
-  float   fValue;
-  int32_t s32Value;
-	
-  if (coMCP3421.IsReady())
-  {
-    fValue   = coMCP3421.ReadValue();
-    s32Value = coMCP3421.ReadRaw();
-    //Serial.printf("\nADC: 0x%08lX (%ld) -> %.3f\n", s32Value, s32Value, fValue);
-    coMCP3421.Trigger();
-  }
-  else
-  {
-    Serial.printf(".");
-  }
+  MCP.newConversion();
+  Voltaje=MCP.measure();
+  Serial.print("Voltaje = "); // print result
+  Serial.print(Voltaje);
+  Serial.println(" nanoVolt");
+  delay (1000);
 
-  delay(100);
 }
 
